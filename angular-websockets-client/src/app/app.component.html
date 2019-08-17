@@ -1,6 +1,6 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1 class="mat-h1">Welcome to {{ title }}!</h1>
+  <h1 class="mat-h1">{{ title }}</h1>
 </div>
 
 <div class="button-container">
@@ -13,7 +13,7 @@
         type="text"
         matInput
         placeholder="Enter websocket address"
-        value="{{wsAddress}}"
+        value="{{ wsAddress }}"
         (input)="wsAddress = $event.target.value"
       />
     </mat-form-field>
@@ -29,7 +29,6 @@
       </span>
     </div>
     <mat-card-actions>
-     
       <mat-grid-list cols="2" rowHeight="100px">
         <mat-grid-tile>
           <button
@@ -51,11 +50,6 @@
             Close
           </button>
         </mat-grid-tile>
-        <!-- <mat-grid-tile>
-          <button mat-raised-button color="primary" (click)="sendGame(1)">
-            Send Game 1
-          </button>
-        </mat-grid-tile> -->
       </mat-grid-list>
     </mat-card-actions>
   </mat-card>
@@ -65,18 +59,24 @@
   <mat-grid-list cols="1" rowHeight="100px">
     <mat-grid-tile>
       <mat-form-field appearance="outline" [hideRequiredMarker]="true">
-        <mat-label>Name</mat-label>
+        <mat-label>Data to send</mat-label>
         <textarea
+          [disabled]="wsStatus === 'closed'"
           type="text"
           matInput
           placeholder="Enter data to send"
-          value="{{data}}"
-        (input)="data = $event.target.value"
+          value="{{ data }}"
+          (input)="data = $event.target.value"
         ></textarea>
       </mat-form-field>
     </mat-grid-tile>
     <mat-grid-tile>
-      <button mat-raised-button color="primary" (click)="sendData()">
+      <button
+        [disabled]="wsStatus === 'closed'"
+        mat-raised-button
+        color="primary"
+        (click)="sendData()"
+      >
         Send
       </button>
     </mat-grid-tile>
@@ -85,7 +85,7 @@
 
 <mat-card>
   <mat-card-title>
-    Serial output
+    Received data
   </mat-card-title>
   <div *ngFor="let item of getArray()">
     {{ item }}

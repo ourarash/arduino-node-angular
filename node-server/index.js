@@ -79,12 +79,17 @@ function devicePortInit() {
   devicePort.on("error", error => {
     log.error("Serial port error: " + error);
     log.info(
-      `Will retry connection in ${
+      `Will retry in ${
         Globals.options.serialConnectRetryIntervalInSeconds
       } seconds`
     );
 
-    broadcast("Error in opening serial port!");
+    broadcast(
+      "Error in opening serial port. " +
+        `Will retry in ${
+          Globals.options.serialConnectRetryIntervalInSeconds
+        } seconds`
+    );
     setTimeout(() => {
       devicePortInit();
     }, Globals.options.serialConnectRetryIntervalInSeconds * 1000);
@@ -101,7 +106,7 @@ function devicePortInit() {
  */
 function broadcast(data) {
   for (let c of Globals.wsConnections) {
-    c.send(JSON.stringify(data));
+    c.send(data);
   }
 }
 //-----------------------------------------------------------------------------
@@ -146,7 +151,8 @@ function handleConnection(client) {
   Globals.wsConnections.push(client);
 
   log.info(
-    `Number of connected websocket clients: ${Globals.wsConnections.length}`.yellow
+    `Number of connected websocket clients: ${Globals.wsConnections.length}`
+      .yellow
   );
 
   client.on("message", sendToSerial);
@@ -215,13 +221,13 @@ function updateStatusBar() {
       `, Read: ` +
       numeral(Globals.serialPortReadBytes)
         .format("0 a")
-        .toString().green+
-        `, Write: ` +
-        numeral(Globals.serialPortWriteBytes)
-          .format("0 a")
-          .toString().green;
+        .toString().green +
+      `, Write: ` +
+      numeral(Globals.serialPortWriteBytes)
+        .format("0 a")
+        .toString().green;
   } else {
-    serialPortStatusText +=`closed`.red;
+    serialPortStatusText += `closed`.red;
   }
 
   let wsText = `, WS connections: `;

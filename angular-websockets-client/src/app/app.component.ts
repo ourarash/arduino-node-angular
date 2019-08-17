@@ -11,7 +11,7 @@ export class AppComponent {
   title = 'Angular Websocket Client';
   wsAddress = "ws://localhost:8081";
   socket;
-  data = "Test data";
+  data = "Hi from Angular!";
 
   wsStatus = "closed";
 
@@ -22,6 +22,7 @@ export class AppComponent {
   }
 
   connect() {
+    i=[];
     // The socket connection needs two event listeners:
     try {
       this.socket = new WebSocket(this.wsAddress);
