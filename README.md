@@ -12,7 +12,15 @@ The arduino firmware and Node server should run on the same device. The Angular 
 ![Screenshot](https://github.com/ourarash/arduino-node-angular/raw/master/serial-websocket/screenshot.gif)
 
 
-#Installation
+# Installation
+
+## Arduino
+```bash
+git clone https://github.com/ourarash/arduino-node-angular.git
+```
+Then program [arduino-node-angular/arduino/serial/serial.ino] to your board.
+
+Find out the name of the serial port from Arduino Tools menu.
 
 ## Node server:
 ```bash
