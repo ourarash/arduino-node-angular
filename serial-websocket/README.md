@@ -9,7 +9,6 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 
 [![NPM](https://badge.fury.io/js/serial-websocket.svg)](https://www.npmjs.com/package/serial-websocket)
 
-<!-- [![NPM Downloads][downloadst-image]][downloads-url] -->
 
 [downloads-image]: https://img.shields.io/npm/dm/serial-websocket.svg
 [downloadst-image]: https://img.shields.io/npm/dt/serial-websocket.svg
@@ -17,7 +16,7 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 
 ![Screenshot](https://github.com/ourarash/arduino-node-angular/raw/master/serial-websocket/screenshot.gif)
 
-#Installation
+# Installation
 
 ```bash
 npm install serial-websocket --save
