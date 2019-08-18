@@ -4,7 +4,7 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 - [x] Receives data from websocket and sends it into the serial port
 - [x] Receives data from the serial port and sends it into the websocket
 - [x] Supports multiple websocket connections
-- [x] Arduino serial connection and Angular client example are provided
+- [x] [Arduino serial connection and Angular client example](https://github.com/ourarash/arduino-node-angular) are provided
 
 [![NPM](https://badge.fury.io/js/serial-websocket.svg)](https://www.npmjs.com/package/serial-websocket)
 
