@@ -15,7 +15,7 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 [downloads-url]: https://npmjs.org/package/serial-websocket
 
 
-![Screenshot](https://raw.githubusercontent.com/ourarash/serial-websocket/master/screenshot.gif)
+![Screenshot](https://github.com/ourarash/arduino-node-angular/raw/master/serial-websocket/screenshot.gif | width=50)
 
 #Installation
 ```bash
