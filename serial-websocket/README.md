@@ -19,9 +19,7 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 npm install serial-websocket --save
 ```
 
-
 # Usage
-
 ```javascript
 let options = {
   serialPort: {
