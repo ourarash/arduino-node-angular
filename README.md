@@ -27,7 +27,7 @@ Find out the name of the serial port from Arduino Tools menu.
 git clone https://github.com/ourarash/arduino-node-angular.git
 cd arduino-node-angular/serial-websocket/
 npm install
-node examples/simple.js
+node examples/simple.js --serialPortName="<SERIAL_PORT_NAME>" --serialPortNameRate=9600 --webSocketPortNumber=8081
 ```
 
 ## Angular client:
