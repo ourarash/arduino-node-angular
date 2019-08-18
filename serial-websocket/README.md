@@ -34,3 +34,7 @@ let options = {
 const serial_websocket = require("serial-websocket")(options);
 serial_websocket.start();
 ```
+
+# Angular Client
+
+An Angular client and Arduino demo code is provided [here](https://github.com/ourarash/arduino-node-angular).
