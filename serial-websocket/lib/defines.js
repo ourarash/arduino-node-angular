@@ -6,9 +6,10 @@ var Globals = {
       name: "/dev/cu.usbmodem142301",
       rate: 9600
     },
-    server_port: 8081,
+    webSocketPortNumber: 8081,
     enable: true,
-    serialConnectRetryIntervalInSeconds:5
+    serialConnectRetryIntervalInSeconds:5,
+    listSerialPorts: false,
   },
   socket:0,
   serialPortReadBytes:0,
@@ -24,7 +25,7 @@ var Globals = {
 
 const log = require("log-with-statusbar")({
   ololog_configure: {
-    time: { yes: true, print: x => x.toLocaleString().bright.cyan + " " },
+    // time: { yes: true, print: x => x.toLocaleString().bright.cyan + " " },
     locate: false,
     tag: true
   },

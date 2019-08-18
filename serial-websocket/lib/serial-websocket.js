@@ -1,18 +1,7 @@
-/*
-Serial-to-websocket Server
-using serialport.js
-
-To call this type the following on the command line:
-node wsServer.js portName
-
-where portname is the name of your serial port, e.g. /dev/tty.usbserial-xxxx (on OSX)
-
-created 28 Aug 2015
-modified 5 Nov 2017
-by Tom Igoe
-
-*/
-
+/**
+ * Connects serial port to web socket
+ * By: Ari Saif
+ */
 //-----------------------------------------------------------------------------
 const util = require("util");
 const moment = require("moment");
@@ -22,17 +11,14 @@ const numeral = require("numeral");
 var defines = require("./defines");
 var Globals = defines.Globals;
 var log = defines.log;
-// include the various libraries that you'll use:
-var SerialPort = require("serialport"); // include the serialport library
-var WebSocketServer = require("ws").Server; // include the webSocket library
 
-// configure the webSocket server:
-var wss = new WebSocketServer({ port: Globals.options.server_port });
+var SerialPort = require("serialport");
+var WebSocketServer = require("ws").Server;
 
 var devicePort;
 
-var Readline = SerialPort.parsers.Readline; // make instance of Readline parser
-var parser = new Readline(); // make a new parser to read ASCII lines
+var Readline = SerialPort.parsers.Readline;
+var parser = new Readline();
 //-----------------------------------------------------------------------------
 async function listSerialPorts() {
   const serialPortList = util.promisify(SerialPort.list);
@@ -63,9 +49,8 @@ function devicePortInit() {
     Globals.options.serialPort.name,
     Globals.options.serialPort.rate
   );
-  devicePort.pipe(parser); // pipe the serial stream to the parser
+  devicePort.pipe(parser);
 
-  // called when the serial port opens
   devicePort.on("open", () => {
     log.info(`Serial port successfully opened!`.green);
     Globals.serialPortStatus = "open";
@@ -115,8 +100,6 @@ function broadcast(data) {
  * @param {object} data
  */
 function readSerialData(data) {
-  // if there are webSocket Globals.wsConnections, send the serial data
-  // to all of them:
   log.info("Serial READ:".green, data);
   if (Globals.wsConnections.length > 0) {
     broadcast(data);
@@ -145,7 +128,6 @@ function sendToSerial(data) {
 function handleConnection(client) {
   log.info(`New websocket Connection established!`.yellow);
   try {
-    // log.info(`client object:  ${JSON.stringify(client, null, 2)}`.darkGray);
   } catch (error) {}
   // add this client to the Globals.wsConnections array
   Globals.wsConnections.push(client);
@@ -174,9 +156,19 @@ async function start() {
   log.info(
     "-----------------------------------------------------------------------------"
   );
-  await listSerialPorts();
+  if (Globals.options.listSerialPorts) {
+    await listSerialPorts();
+  }
   devicePortInit();
-  wss.on("connection", handleConnection);
+  let webSocket;
+  try {
+    webSocket = new WebSocketServer({ port: Globals.options.webSocketPortNumber });
+    webSocket.on("connection", handleConnection);
+  } catch (error) {
+    log.error(error);
+    return;
+  }
+
   Globals.options.enable = true;
 
   Globals.intervals.statusBarTextInterval = setInterval(() => {
@@ -186,15 +178,14 @@ async function start() {
   }, Globals.statusBarTextInterval_ms);
 }
 //-----------------------------------------------------------------------------
+async function stop() {
+  Globals.options.enable = false;
+}
+//-----------------------------------------------------------------------------
 var g_printStatusCounter = 0;
 function updateStatusBar() {
   let curTime = moment().valueOf();
 
-  // let elapsedTime = moment
-  //   .duration(curTime - defines.Globals.startTime)
-  //   .format("h[h]:mm[m]:s[s]");
-
-  // let frames = log.getSpinners().point.frames;
   let frames1 = ["∙∙∙", "●∙∙", "∙●∙", "∙∙●", "●●●", "∙∙∙", "●●●"];
   let frames2 = ["∙∙∙", "∙∙●", "∙●∙", "●∙∙", "●●●", "∙∙∙", "●●●"];
 
@@ -212,7 +203,7 @@ function updateStatusBar() {
     spinner2 = spinner2.green.bright;
   }
 
-  let serialPortStatusText = `Serial port: `;
+  let serialPortStatusText = `Serial prt: `;
   if (Globals.serialPortStatus === `open`) {
     serialPortStatusText +=
       `open`.green +
@@ -236,14 +227,13 @@ function updateStatusBar() {
   } else {
     wsText += Globals.wsConnections.length.toString().red;
   }
+  
   let statusBarText = Array(2);
-  statusBarText[0] = `-----------------------------------------------------------------------------`;
+  statusBarText[0] = `-----------------------------------------------------------------------------`.white;
   statusBarText[1] = spinner1 + " " + serialPortStatusText + wsText;
 
   log.setStatusBarText(statusBarText);
 }
-//-----------------------------------------------------------------------------
-start();
 //-----------------------------------------------------------------------------
 module.exports = function(options = {}) {
   Object.assign(Globals.options, options);
