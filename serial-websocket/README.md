@@ -8,6 +8,7 @@ A bidirectional websocket to serial port server bridge. It can be used to send/r
 - [x] [Arduino serial connection and Angular client example](https://github.com/ourarash/arduino-node-angular) are provided
 
 [![NPM](https://badge.fury.io/js/serial-websocket.svg)](https://www.npmjs.com/package/serial-websocket)
+[![NPM Downloads][downloadst-image]][downloads-url]
 
 
 [downloads-image]: https://img.shields.io/npm/dm/serial-websocket.svg
@@ -38,3 +39,7 @@ serial_websocket.start();
 # Angular Client
 
 An Angular client and Arduino demo code is provided [here](https://github.com/ourarash/arduino-node-angular).
+
+# Logger
+
+The logger used in this package is available separately in [log-with-statusbar](https://www.npmjs.com/package/log-with-statusbar) npm package
